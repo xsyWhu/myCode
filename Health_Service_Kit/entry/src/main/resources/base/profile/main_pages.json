@@ -1,7 +1,0 @@
-{
-  "src": [
-    "pages/MainIndex",
-    "pages/AuthIndex",
-    "pages/ExerciseSequenceIndex"
-  ]
-}
