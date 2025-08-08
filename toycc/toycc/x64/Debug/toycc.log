@@ -1,0 +1,23 @@
+﻿  codegen.cpp
+C:\Users\xsy\source\repos\toycc\toycc\ast.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+  (compiling source file 'codegen.cpp')
+  
+  main.cpp
+C:\Users\xsy\source\repos\toycc\toycc\ast.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+  (compiling source file 'main.cpp')
+  
+  optimizer.cpp
+C:\Users\xsy\source\repos\toycc\toycc\ast.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+  (compiling source file 'optimizer.cpp')
+  
+  optimizer.h
+C:\Users\xsy\source\repos\toycc\toycc\ast.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+  (compiling source file 'optimizer.h')
+  
+  parser.cpp
+C:\Users\xsy\source\repos\toycc\toycc\ast.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+  (compiling source file 'parser.cpp')
+  
+  Generating Code...
+x64\Debug\optimizer.obj : warning LNK4042: object specified more than once; extras ignored
+  toycc.vcxproj -> C:\Users\xsy\source\repos\toycc\x64\Debug\toycc.exe

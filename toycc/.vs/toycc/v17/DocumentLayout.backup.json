@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\xsy\\source\\repos\\toycc\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\codegen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\codegen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\lexer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\lexer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\optimizer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\optimizer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\parser.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\parser.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\output.s||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\output.s||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\test1.tc||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\test1.tc||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\optimizer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\optimizer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\codegen.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{09BD5A49-1419-4136-9803-30AC4FBC7E6B}|toycc\\toycc.vcxproj|solutionrelative:toycc\\codegen.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "lexer.cpp",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\lexer.cpp",
+              "RelativeDocumentMoniker": "toycc\\lexer.cpp",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\lexer.cpp",
+              "RelativeToolTip": "toycc\\lexer.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-08T05:40:10.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\main.cpp",
+              "RelativeDocumentMoniker": "toycc\\main.cpp",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\main.cpp",
+              "RelativeToolTip": "toycc\\main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-08T05:22:37.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "parser.cpp",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\parser.cpp",
+              "RelativeDocumentMoniker": "toycc\\parser.cpp",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\parser.cpp",
+              "RelativeToolTip": "toycc\\parser.cpp",
+              "ViewState": "AgIAANYAAAAAAAAAAADwvwQBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-08T05:22:12.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "output.s",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\output.s",
+              "RelativeDocumentMoniker": "toycc\\output.s",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\output.s",
+              "RelativeToolTip": "toycc\\output.s",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-05T07:17:04.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "optimizer.h",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\optimizer.h",
+              "RelativeDocumentMoniker": "toycc\\optimizer.h",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\optimizer.h",
+              "RelativeToolTip": "toycc\\optimizer.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-05T07:07:05.306Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "optimizer.cpp",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\optimizer.cpp",
+              "RelativeDocumentMoniker": "toycc\\optimizer.cpp",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\optimizer.cpp",
+              "RelativeToolTip": "toycc\\optimizer.cpp",
+              "ViewState": "AgIAAJgBAAAAAAAAAADwv6IBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-05T07:01:00.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "test1.tc",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\test1.tc",
+              "RelativeDocumentMoniker": "toycc\\test1.tc",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\test1.tc",
+              "RelativeToolTip": "toycc\\test1.tc",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-23T08:24:07.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "codegen.h",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\codegen.h",
+              "RelativeDocumentMoniker": "toycc\\codegen.h",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\codegen.h",
+              "RelativeToolTip": "toycc\\codegen.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-07-23T08:17:38.061Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "codegen.cpp",
+              "DocumentMoniker": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\codegen.cpp",
+              "RelativeDocumentMoniker": "toycc\\codegen.cpp",
+              "ToolTip": "C:\\Users\\xsy\\source\\repos\\toycc\\toycc\\codegen.cpp",
+              "RelativeToolTip": "toycc\\codegen.cpp",
+              "ViewState": "AgIAAJsAAAAAAAAAAADwv8kAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-07-23T08:15:31.772Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
