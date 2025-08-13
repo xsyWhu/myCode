@@ -16,9 +16,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(SRC
-    whu-toy-c-master/src/main.cpp
-    whu-toy-c-master/src/semantic.cpp
-    whu-toy-c-master/src/codegen.cpp
+    src/main.cpp
+    src/semantic.cpp
+    src/codegen.cpp
     ${BISON_Parser_OUTPUTS}
     ${FLEX_Lexer_OUTPUTS}
 )
