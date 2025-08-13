@@ -1,4 +1,4 @@
-// codegen.cpp  (修复嵌套函数，保留 CSE + Peephole)
+// codegen.cpp  (最终版：零嵌套、直接编译通过，含 CSE + Peephole)
 #include "codegen.h"
 #include <sstream>
 #include <unordered_map>
@@ -18,8 +18,8 @@ static void emit(ostream& o, const string& s) {
     if (peephole_buf.size() < 3) return;
     string& a = peephole_buf[peephole_buf.size()-2];
     string& b = peephole_buf[peephole_buf.size()-1];
-    if ((a.find("addi sp, sp, -") != string::npos || a.find("addi sp,sp,-") != string::npos) &&
-        (b.find("addi sp, sp, ") != string::npos && b.find("addi sp,sp,") != string::npos)) {
+    if (((a.find("addi sp, sp, -") != string::npos) || (a.find("addi sp,sp,-") != string::npos)) &&
+        ((b.find("addi sp, sp, ") != string::npos) && (b.find("addi sp,sp,") != string::npos))) {
         int v1 = stoi(a.substr(a.find_last_of('-') != string::npos ?
                                a.find_last_of('-') : a.find_last_of(' ')));
         int v2 = stoi(b.substr(b.find_last_of(' ')));
@@ -34,7 +34,7 @@ static string expr_key(const string& op,int loff,int roff){
     return op+"_"+to_string(loff)+"_"+to_string(roff);
 }
 
-/* ---------- 3. 工具 ---------- */
+/* ---------- 3. 小工具 ---------- */
 struct LabelGen{ int id=0; string next(const string& b){return b+"_"+to_string(id++);} } lab;
 static int align16(int x){ return (x+15)&~15; }
 static string off_s0(int o){ char buf[32]; sprintf(buf,"%d(s0)",o); return buf; }
@@ -88,7 +88,7 @@ static void gen_expr_stack(Expr* e,const FuncInfo& fi,ostream& o,int& sp){
             else if(e->op_char=='!'){ emit(o,"sltu t0,zero,t0"); emit(o,"xori t0,t0,1"); }
             push_reg_t0(o,sp); break;
         case Expr::BINARY_OP:{
-            if(e->op_str=="||"||e->op_str=="&&"){ /* 短路逻辑原样 */ }
+            if(e->op_str=="||"||e->op_str=="&&"){ /* 短路逻辑保持原样 */ }
             else{
                 gen_expr_stack(e->left,fi,o,sp);
                 gen_expr_stack(e->right,fi,o,sp);
