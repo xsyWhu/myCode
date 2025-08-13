@@ -2,6 +2,7 @@
 #include "parser.tab.h"
 #include "ast.h"
 #include <iostream>
+#include <algorithm>
 #include "semantic.h"
 #include "codegen.h"
 
