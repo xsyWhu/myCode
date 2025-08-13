@@ -49,33 +49,38 @@ static void pop_to_t0(ostream &o, int &cur_sp_bytes) {
 /* emit_call: evaluate args, align, push, load a0..a7, call; optionally push return */
 static void emit_call(Expr* call_expr, const FuncInfo& fi, ostream &o, int &cur_sp_bytes, bool push_return) {
     size_t argc = call_expr->args.size();
-    int total_args_bytes = (int)argc * 4;
-    int pad = (16 - ((cur_sp_bytes + total_args_bytes) % 16)) % 16;
+    size_t in_regs = std::min<size_t>(8, argc);
+    size_t on_stack = argc - in_regs;
+    int stack_args_bytes = (int)on_stack * 4;
+    int pad = (16 - ((cur_sp_bytes + stack_args_bytes) % 16)) % 16;
+    
     if (pad > 0) {
         emit(o, "addi sp, sp, -" + to_string(pad));
         cur_sp_bytes += pad;
     }
-    // evaluate arguments right-to-left and push
-    for (int i = (int)argc - 1; i >= 0; --i) {
+    
+    // Evaluate stack arguments (right-to-left) and push
+    for (int i = (int)argc - 1; i >= (int)in_regs; --i) {
         gen_expr_stack(call_expr->args[i], fi, o, cur_sp_bytes);
     }
-    // load into a0..a7 from stack (0(sp) is arg1)
-    size_t in_regs = std::min<size_t>(8, argc);
-    for (size_t i = 0; i < in_regs; ++i) {
-        emit(o, "lw a" + to_string(i) + ", " + to_string((int)i*4) + "(sp)");
+    
+    // Evaluate register arguments (right-to-left) directly to a0-a7
+    for (int i = (int)in_regs - 1; i >= 0; --i) {
+        gen_expr_to_reg(call_expr->args[i], fi, o, cur_sp_bytes, "a" + to_string(i));
     }
+    
     // call
     emit(o, "call " + call_expr->call_name);
+    
     // restore caller stack (args + pad)
-    if (total_args_bytes + pad > 0) {
-        emit(o, "addi sp, sp, " + to_string(total_args_bytes + pad));
-        cur_sp_bytes -= (total_args_bytes + pad);
+    if (stack_args_bytes + pad > 0) {
+        emit(o, "addi sp, sp, " + to_string(stack_args_bytes + pad));
+        cur_sp_bytes -= (stack_args_bytes + pad);
     }
+    
     if (push_return) {
         emit(o, "mv t0, a0");
         push_reg_t0(o, cur_sp_bytes);
-    } else {
-        // return in a0 already
     }
 }
 
@@ -141,28 +146,35 @@ static void gen_expr_stack(Expr* e, const FuncInfo& fi, ostream &o, int &cur_sp_
                 return;
             }
 
+            // Optimized binary operations using t1 and t0 registers
             gen_expr_stack(e->left, fi, o, cur_sp_bytes);
+            pop_to_t0(o, cur_sp_bytes);
+            emit(o, "mv t1, t0");
             gen_expr_stack(e->right, fi, o, cur_sp_bytes);
-            pop_to_t0(o, cur_sp_bytes); // right -> t0
-            emit(o, "mv t1, t0"); // t1 = right
-            pop_to_t0(o, cur_sp_bytes); // left -> t0
+            pop_to_t0(o, cur_sp_bytes);
             const string &op = e->op_str;
-            if (op == "+") emit(o, "add t0, t0, t1");
-            else if (op == "-") emit(o, "sub t0, t0, t1");
-            else if (op == "*") emit(o, "mul t0, t0, t1");
-            else if (op == "/") emit(o, "div t0, t0, t1");
-            else if (op == "%") emit(o, "rem t0, t0, t1");
-            else if (op == "<") emit(o, "slt t0, t0, t1");
-            else if (op == ">") emit(o, "slt t0, t1, t0");
-            else if (op == "<=") { emit(o, "slt t2, t1, t0"); emit(o, "xori t0, t2, 1"); }
-            else if (op == ">=") { emit(o, "slt t2, t0, t1"); emit(o, "xori t0, t2, 1"); }
+            if (op == "+") emit(o, "add t0, t1, t0");
+            else if (op == "-") emit(o, "sub t0, t1, t0");
+            else if (op == "*") emit(o, "mul t0, t1, t0");
+            else if (op == "/") emit(o, "div t0, t1, t0");
+            else if (op == "%") emit(o, "rem t0, t1, t0");
+            else if (op == "<") emit(o, "slt t0, t1, t0");
+            else if (op == ">") emit(o, "slt t0, t0, t1");
+            else if (op == "<=") {
+                emit(o, "slt t0, t0, t1");
+                emit(o, "xori t0, t0, 1");
+            }
+            else if (op == ">=") {
+                emit(o, "slt t0, t1, t0");
+                emit(o, "xori t0, t0, 1");
+            }
             else if (op == "==") {
-                emit(o, "xor t2, t0, t1");
-                emit(o, "sltu t0, zero, t2");
+                emit(o, "xor t0, t1, t0");
+                emit(o, "sltu t0, zero, t0");
                 emit(o, "xori t0, t0, 1");
             } else if (op == "!=") {
-                emit(o, "xor t2, t0, t1");
-                emit(o, "sltu t0, zero, t2");
+                emit(o, "xor t0, t1, t0");
+                emit(o, "sltu t0, zero, t0");
             } else {
                 emit(o, "# unknown op: " + op);
             }
