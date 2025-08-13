@@ -143,8 +143,7 @@ static Stmt* opt(Stmt* s) {
 }
 
 static void optimize_all(CompUnit* root) {
-    if (!root) return;
-    for (auto f : root->funcs) if (f && f->body) f->body = opt(f->body);
+    //
 }
 /* ========= 安全优化补丁结束 ========= */
 
