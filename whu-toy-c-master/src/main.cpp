@@ -6,9 +6,17 @@
 #include "semantic.h"
 #include "codegen.h"
 
-static Expr* make_int_const(int v);
-static Stmt* make_empty();
-
+static Expr* make_int_const(int v) {
+    Expr* e = new Expr();
+    e->type = Expr::INT_CONST;
+    e->int_val = v;
+    return e;
+}
+static Stmt* make_empty() {
+    Stmt* s = new Stmt();
+    s->type = Stmt::EMPTY;
+    return s;
+}
 /* ========= 安全优化补丁开始 ========= */
 
 // 安全的删除表达式：先把子树全部置空再 delete
