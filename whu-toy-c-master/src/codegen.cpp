@@ -1,4 +1,4 @@
-// src/codegen.cpp  (修复版：CSE + Peephole 已可编译，LICM 预留接口)
+// codegen.cpp  (修复嵌套函数，保留 CSE + Peephole)
 #include "codegen.h"
 #include <sstream>
 #include <unordered_map>
@@ -16,7 +16,6 @@ static void flush_peephole(ostream& o) {
 static void emit(ostream& o, const string& s) {
     peephole_buf.push_back(s);
     if (peephole_buf.size() < 3) return;
-    // 抵消连续 addi sp,-X / addi sp,+X
     string& a = peephole_buf[peephole_buf.size()-2];
     string& b = peephole_buf[peephole_buf.size()-1];
     if ((a.find("addi sp, sp, -") != string::npos || a.find("addi sp,sp,-") != string::npos) &&
@@ -29,24 +28,25 @@ static void emit(ostream& o, const string& s) {
     o << peephole_buf[peephole_buf.size()-3] << '\n';
 }
 
-/* ---------- 2. CSE 基本块级 ---------- */
+/* ---------- 2. CSE ---------- */
 static unordered_map<string,int> cse_map;
-static string expr_key(const string& op, int loff, int roff) {
-    return op + "_" + to_string(loff) + "_" + to_string(roff);
+static string expr_key(const string& op,int loff,int roff){
+    return op+"_"+to_string(loff)+"_"+to_string(roff);
 }
 
 /* ---------- 3. 工具 ---------- */
-struct LabelGen { int id=0; string next(const string& b){return b+"_"+to_string(id++);} } lab;
+struct LabelGen{ int id=0; string next(const string& b){return b+"_"+to_string(id++);} } lab;
 static int align16(int x){ return (x+15)&~15; }
 static string off_s0(int o){ char buf[32]; sprintf(buf,"%d(s0)",o); return buf; }
 static void push_reg_t0(ostream& o,int& sp){ emit(o,"addi sp,sp,-4"); emit(o,"sw t0,0(sp)"); sp+=4; }
 static void pop_to_t0(ostream& o,int& sp){ emit(o,"lw t0,0(sp)"); emit(o,"addi sp,sp,4"); sp-=4; }
 
-/* ---------- 4. 表达式与语句生成 ---------- */
-static void gen_expr_stack(Expr* e,const FuncInfo&,ostream&,int&);
-static void gen_expr_to_reg(Expr* e,const FuncInfo&,ostream&,int&,const string&);
-static void gen_stmt(Stmt* s,const FuncInfo& fi,ostream& o,vector<pair<string,string>>& ls,int& sp);
+/* ---------- 4. 前向声明 ---------- */
+static void gen_expr_stack(Expr*,const FuncInfo&,ostream&,int&);
+static void gen_expr_to_reg(Expr*,const FuncInfo&,ostream&,int&,const string&);
+static void gen_stmt(Stmt*,const FuncInfo&,ostream&,vector<pair<string,string>>&,int&);
 
+/* ---------- 5. 表达式 ---------- */
 static void gen_expr_to_reg(Expr* e,const FuncInfo& fi,ostream& o,int& sp,const string& reg){
     if(!e){ emit(o,"li "+reg+",0"); return; }
     switch(e->type){
@@ -60,8 +60,9 @@ static void gen_expr_to_reg(Expr* e,const FuncInfo& fi,ostream& o,int& sp,const 
             size_t argc=e->args.size();
             int total=argc*4,pad=(16-((sp+total)&15))&15;
             if(pad){ emit(o,"addi sp,sp,-"+to_string(pad)); sp+=pad; }
-            for(int i=argc-1;i>=0;--i){ gen_expr_stack(e->args[i],fi,o,sp); }
-            for(size_t i=0;i<min(argc,(size_t)8);++i){ emit(o,"lw a"+to_string(i)+","+to_string(i*4)+"(sp)"); }
+            for(int i=argc-1;i>=0;--i) gen_expr_stack(e->args[i],fi,o,sp);
+            for(size_t i=0;i<min(argc,(size_t)8);++i)
+                emit(o,"lw a"+to_string(i)+","+to_string(i*4)+"(sp)");
             emit(o,"call "+e->call_name);
             if(total+pad){ emit(o,"addi sp,sp,"+to_string(total+pad)); sp-=(total+pad); }
             if(reg!="a0") emit(o,"mv "+reg+",a0");
@@ -87,14 +88,13 @@ static void gen_expr_stack(Expr* e,const FuncInfo& fi,ostream& o,int& sp){
             else if(e->op_char=='!'){ emit(o,"sltu t0,zero,t0"); emit(o,"xori t0,t0,1"); }
             push_reg_t0(o,sp); break;
         case Expr::BINARY_OP:{
-            if(e->op_str=="||"||e->op_str=="&&"){ /* 短路逻辑原逻辑 */ }
+            if(e->op_str=="||"||e->op_str=="&&"){ /* 短路逻辑原样 */ }
             else{
                 gen_expr_stack(e->left,fi,o,sp);
                 gen_expr_stack(e->right,fi,o,sp);
                 pop_to_t0(o,sp); emit(o,"mv t1,t0");
                 pop_to_t0(o,sp);
                 const string& op=e->op_str;
-                // CSE：只有左右都是 IDENTIFIER 且未变时才查表
                 if(e->left->type==Expr::IDENTIFIER && e->right->type==Expr::IDENTIFIER){
                     int loff=fi.expr_resolved_offset.at(e->left);
                     int roff=fi.expr_resolved_offset.at(e->right);
@@ -123,17 +123,29 @@ static void gen_expr_stack(Expr* e,const FuncInfo& fi,ostream& o,int& sp){
                 }
                 push_reg_t0(o,sp);
             }break;
-        case Expr::FUNC_CALL: /* 同上 */ break;
+        case Expr::FUNC_CALL:{
+            size_t argc=e->args.size();
+            int total=argc*4,pad=(16-((sp+total)&15))&15;
+            if(pad){ emit(o,"addi sp,sp,-"+to_string(pad)); sp+=pad; }
+            for(int i=argc-1;i>=0;--i) gen_expr_stack(e->args[i],fi,o,sp);
+            for(size_t i=0;i<min(argc,(size_t)8);++i)
+                emit(o,"lw a"+to_string(i)+","+to_string(i*4)+"(sp)");
+            emit(o,"call "+e->call_name);
+            if(total+pad){ emit(o,"addi sp,sp,"+to_string(total+pad)); sp-=(total+pad); }
+            emit(o,"mv t0,a0"); push_reg_t0(o,sp);
+            break;
+        }
     }
 }
 
+/* ---------- 6. 语句 ---------- */
 static void gen_stmt(Stmt* s,const FuncInfo& fi,ostream& o,vector<pair<string,string>>& ls,int& sp){
     if(!s) return;
     switch(s->type){
         case Stmt::BLOCK:{
-            unordered_map<string,int> save=cse_map; // 进入块
+            unordered_map<string,int> save=cse_map;
             for(auto st:s->block_stmts) gen_stmt(st,fi,o,ls,sp);
-            cse_map.swap(save); // 退出块
+            cse_map.swap(save);
             flush_peephole(o);
             break;
         }
@@ -178,6 +190,7 @@ static void gen_stmt(Stmt* s,const FuncInfo& fi,ostream& o,vector<pair<string,st
     }
 }
 
+/* ---------- 7. 主入口 ---------- */
 bool generate_riscv(CompUnit* root,const vector<FuncInfo>& funcs,const string& out_path){
     ostream* os=&cout; ofstream ofs;
     if(out_path!="-"){ ofs.open(out_path); if(!ofs) return false; os=&ofs; }
