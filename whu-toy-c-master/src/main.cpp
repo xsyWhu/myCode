@@ -6,6 +6,9 @@
 #include "semantic.h"
 #include "codegen.h"
 
+static Expr* make_int_const(int v);
+static Stmt* make_empty();
+
 /* ========= 安全优化补丁开始 ========= */
 
 // 安全的删除表达式：先把子树全部置空再 delete
