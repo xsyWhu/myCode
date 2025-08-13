@@ -183,9 +183,8 @@ static Stmt* optimize_stmt(Stmt* s) {
                 return then_stmt;
             }
             break;
-        }
             
-        case Stmt::WHILE: {
+        case Stmt::WHILE: 
             if (s->while_cond) s->while_cond = optimize_expr(s->while_cond);
             if (s->while_body) s->while_body = optimize_stmt(s->while_body);
             
@@ -196,8 +195,7 @@ static Stmt* optimize_stmt(Stmt* s) {
                 s->type = Stmt::EMPTY;
             }
             break;
-        }
-            
+
         case Stmt::RETURN:
             if (s->return_expr) s->return_expr = optimize_expr(s->return_expr);
             break;
