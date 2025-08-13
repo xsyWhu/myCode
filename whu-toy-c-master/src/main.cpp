@@ -195,10 +195,8 @@ int main(int argc, char** argv) {
     }
     // std::cout << "Semantic analysis succeeded\n";
 
-    //optimistic
-    for(auto f : root -> funcs){
-        f->body = optimize_stmt(f->body);
-    }
+    // 优化阶段：常量折叠 + 死代码消除
+    optimize_comp_unit(root);
 
     // generate assembly to stdout
     if (!generate_riscv(root, funcs, "-")) {
